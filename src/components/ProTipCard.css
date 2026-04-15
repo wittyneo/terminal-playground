@@ -1,0 +1,100 @@
+.tip-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tip-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  animation: fadeUp 0.4s ease-out 0.1s both, float-tilt-c 6s ease-in-out 0.9s infinite;
+}
+
+.tip-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tip-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(0, 207, 232, 0.06);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--cyan);
+}
+
+.tip-card__label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.tip-card__text {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-output);
+}
+
+/* Environment decorative card */
+.tip-env {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  animation: fadeUp 0.4s ease-out 0.18s both, float-tilt-d 5.4s ease-in-out 2.4s infinite;
+  min-height: 120px;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.tip-env::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, var(--cyan-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.tip-env__glyph {
+  font-size: 48px;
+  color: var(--cyan-dim);
+  line-height: 1;
+  filter: drop-shadow(0 0 12px var(--cyan-glow-strong));
+  animation: pulse-cyan 3s ease-in-out infinite;
+}
+
+.tip-env__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tip-env__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.tip-env__name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}

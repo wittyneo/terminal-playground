@@ -1,0 +1,266 @@
+.file-tree {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  animation: fadeUp 0.4s ease-out, float-tilt-a 5.3s ease-in-out 0.4s infinite;
+  transition: opacity 0.3s;
+}
+
+.file-tree--dim {
+  opacity: 0.35;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.file-tree__header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+
+.file-tree__icon {
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.file-tree__label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.file-tree__project {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+/* ── Body ───────────────────────────────────────────────── */
+.file-tree__body {
+  padding: 8px 0 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  overflow-y: auto;
+  max-height: 420px;
+}
+
+/* ── Rows ───────────────────────────────────────────────── */
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 8px;
+  min-height: 24px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: default;
+  position: relative;
+  user-select: none;
+}
+
+.tree-row--folder {
+  cursor: pointer;
+}
+
+.tree-row--folder:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+.tree-row--root {
+  padding-left: 8px;
+}
+
+/* New/highlighted nodes (used in exercise 1B to mark additions) */
+.tree-row--highlight {
+  background: rgba(0, 207, 232, 0.06);
+  border-left-color: var(--cyan);
+}
+
+.tree-row--highlight .tree-label {
+  color: var(--cyan);
+}
+
+.tree-row--highlight .tree-folder-icon {
+  color: var(--cyan-dim);
+}
+
+.tree-row--highlight .tree-file-glyph {
+  color: var(--cyan);
+}
+
+/* Active directory */
+.tree-row--active {
+  background: rgba(0, 207, 232, 0.09);
+  border-left-color: var(--cyan);
+}
+
+.tree-row--active .tree-label--folder {
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+.tree-row--active .tree-folder-icon {
+  color: var(--cyan-dim);
+}
+
+.tree-row--dim {
+  opacity: 0.35;
+}
+
+/* ── Chevron ─────────────────────────────────────────────── */
+.tree-chevron {
+  font-size: 13px;
+  color: var(--text-muted);
+  width: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease;
+  transform: rotate(0deg);
+  line-height: 1;
+}
+
+.tree-chevron--open {
+  transform: rotate(90deg);
+}
+
+/* ── Folder icon ─────────────────────────────────────────── */
+.tree-folder-icon {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.tree-row--folder:hover .tree-folder-icon {
+  color: var(--text-secondary);
+}
+
+/* ── Labels ──────────────────────────────────────────────── */
+.tree-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tree-label--folder { color: var(--text-secondary); }
+.tree-label--file   { color: var(--text-secondary); font-size: 11px; }
+
+/* ── File glyph icons ────────────────────────────────────── */
+.tree-file-glyph {
+  font-size: 9px;
+  width: 12px;
+  text-align: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+/* File type colours */
+.icon--tsx  { color: #61dafb; }
+.icon--ts   { color: #4a9eff; }
+.icon--js   { color: #f0c040; }
+.icon--json { color: #98c379; }
+.icon--md   { color: #888;    }
+.icon--dot  { color: var(--text-muted); }
+
+/* ── Dim badge ───────────────────────────────────────────── */
+.tree-dim {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-left: 4px;
+  letter-spacing: 2px;
+}
+
+/* ── Connected tree lines ────────────────────────────────── */
+.tree-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  /* indent the list; the border-left IS the vertical connector line */
+  padding-left: 20px;
+  position: relative;
+}
+
+/* The vertical line — runs down the left edge of the list */
+.tree-list::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.tree-list--root {
+  padding-left: 16px;
+}
+
+.tree-list--root::before {
+  left: 4px;
+}
+
+/* Each list item */
+.tree-item {
+  position: relative;
+  list-style: none;
+}
+
+/* Horizontal connector from vertical line to the row */
+.tree-item::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 12px;
+  width: 10px;
+  height: 1px;
+  background: var(--border);
+}
+
+.tree-list--root > .tree-item::before {
+  left: -8px;
+  width: 7px;
+}
+
+/* Last item: cover the vertical line below its connector
+   so it looks like └── instead of ├── */
+.tree-item--last::after {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 13px;
+  bottom: 0;
+  width: 1px;
+  background: var(--bg-card);
+  z-index: 1;
+}
+
+.tree-list--root > .tree-item--last::after {
+  left: -8px;
+}
+
+/* Nested lists inside items also need indentation */
+.tree-item > .tree-list {
+  padding-left: 18px;
+}
+
+.tree-item > .tree-list::before {
+  left: 6px;
+}
+
+.tree-item > .tree-list > .tree-item::before {
+  left: -12px;
+}
+
+.tree-item > .tree-list > .tree-item--last::after {
+  left: -12px;
+}

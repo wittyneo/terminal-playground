@@ -1,0 +1,184 @@
+.lesson-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Cheatsheet tab ───────────────────────────────────────── */
+.cs-tab {
+  position: fixed;
+  left: 0;
+  top: 30%;
+  transform: translateY(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cs-tab:hover {
+  background: var(--bg-card-alt);
+  border-color: var(--cyan-dim);
+}
+
+.cs-tab--open {
+  transform: translateY(-50%) translateX(300px);
+  border-color: var(--cyan-dim);
+}
+
+.cs-tab__text {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.cs-tab__arrow {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--cyan);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.cs-tab:hover .cs-tab__text,
+.cs-tab--open .cs-tab__text {
+  color: var(--cyan);
+}
+
+/* ── Three-column grid ───────────────────────────────────── */
+.lesson-content {
+  display: grid;
+  grid-template-columns: 240px 552px 220px;
+  gap: 8px;
+  padding: 0;
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  animation: fadeUp 0.35s ease-out;
+}
+
+.lesson-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-col--left,
+.lesson-col--right {
+  gap: 12px;
+  /* each card handles its own float offset */
+}
+
+/* Centre column: heading stacked above terminal */
+.lesson-col--center {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+/* ── Terminal glow wrapper ───────────────────────────────── */
+.terminal-glow-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 576px;
+}
+
+/* The glow sits behind the terminal, slightly larger */
+.terminal-glow {
+  position: absolute;
+  inset: -48px -56px;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(0, 207, 232, 0.55) 0%,
+    rgba(0, 207, 232, 0.28) 40%,
+    rgba(0, 207, 232, 0.08) 65%,
+    transparent 75%
+  );
+  filter: blur(32px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Terminal sits on top of the glow */
+.terminal-glow-wrap .terminal {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Bottom CTA ──────────────────────────────────────────── */
+.lesson-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 32px 18px;
+  flex-shrink: 0;
+  min-height: 58px;
+}
+
+/* Keyboard shortcut hints */
+.cta-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: fadeUp 0.25s ease-out;
+}
+
+.cta-info--danger { color: var(--text-danger); }
+
+.cta-info__key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 7px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.cta-info__text {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+.cta-info__sep { color: var(--text-muted); }
+
+/* ── Hunt mode toggle ────────────────────────────────────── */
+.hunt-mode-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-active);
+  background: transparent;
+  color: var(--cyan);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.hunt-mode-btn:hover {
+  background: var(--cyan-glow);
+  border-color: var(--cyan-dim);
+}

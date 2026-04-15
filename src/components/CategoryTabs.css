@@ -1,0 +1,61 @@
+.cat-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0 20px;
+  flex-shrink: 0;
+}
+
+/* Outer pill container wrapping label + tabs */
+.cat-tabs__inner {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.cat-tabs__label {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  padding: 6px 14px 6px 10px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.cat-tab {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cat-tab:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.05);
+}
+
+.cat-tab--active {
+  background: var(--cyan);
+  color: var(--bg-void);
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px var(--cyan-glow-strong);
+}
+
+.cat-tab--active:hover {
+  color: var(--bg-void);
+}

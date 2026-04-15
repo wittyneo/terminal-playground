@@ -1,0 +1,187 @@
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  /* Background layers */
+  --bg-void: #111720;
+  --bg-card: #181f2c;
+  --bg-card-alt: #1b2330;
+  --bg-terminal: #131a24;
+  --bg-input: #151c28;
+
+  /* Borders */
+  --border: #1a2535;
+  --border-active: #00cfe840;
+  --border-danger: #ff4d4d40;
+
+  /* Accent - cyan */
+  --cyan: #00cfe8;
+  --cyan-dim: #00cfe880;
+  --cyan-glow: rgba(0, 207, 232, 0.15);
+  --cyan-glow-strong: rgba(0, 207, 232, 0.3);
+
+  /* Accent - danger */
+  --danger: #ff4d4d;
+  --danger-glow: rgba(255, 77, 77, 0.15);
+
+  /* Accent - success */
+  --success: #00e5a0;
+  --success-glow: rgba(0, 229, 160, 0.15);
+
+  /* Text */
+  --text-primary: #eaf3f8;
+  --text-secondary: #7a9eb8;
+  --text-muted: #2e4a60;
+  --text-cyan: #00cfe8;
+  --text-output: #8ab0c4;
+  --text-danger: #ff6b6b;
+  --text-success: #00e5a0;
+
+  /* Terminal traffic lights */
+  --dot-red: #ff5f56;
+  --dot-yellow: #ffbd2e;
+  --dot-green: #27c93f;
+
+  /* Typography */
+  --font-ui: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* Grain texture overlay — fixed so it covers the whole page */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)'/%3E%3C/svg%3E");
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   GLOBAL NOISE OVERLAY
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+.mono { font-family: var(--font-mono); }
+
+.glow-cyan {
+  box-shadow: 0 0 20px var(--cyan-glow), 0 0 40px var(--cyan-glow);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes pulse-cyan {
+  0%, 100% { box-shadow: 0 0 0 0 var(--cyan-glow); }
+  50% { box-shadow: 0 0 24px 4px var(--cyan-glow-strong); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+@keyframes success-flash {
+  0% { border-color: var(--border-active); }
+  50% { border-color: var(--success); box-shadow: 0 0 20px var(--success-glow); }
+  100% { border-color: var(--border-active); }
+}
+
+/* Each card has a baked-in tilt that gently rocks as it bobs */
+@keyframes float-tilt-a {
+  /* cmd-card: leans left, rocks slightly */
+  0%, 100% { transform: rotate(-2.5deg) translateY(0px); }
+  50%       { transform: rotate(-1.6deg) translateY(-7px); }
+}
+
+@keyframes float-tilt-b {
+  /* flags-card: leans right */
+  0%, 100% { transform: rotate(2deg) translateY(0px); }
+  50%       { transform: rotate(1.2deg) translateY(-6px); }
+}
+
+@keyframes float-tilt-c {
+  /* tip-card: leans right, higher start */
+  0%, 100% { transform: rotate(2.5deg) translateY(0px); }
+  50%       { transform: rotate(1.6deg) translateY(-8px); }
+}
+
+@keyframes float-tilt-d {
+  /* env-card: leans left slightly */
+  0%, 100% { transform: rotate(-1.8deg) translateY(0px); }
+  50%       { transform: rotate(-1deg) translateY(-5px); }
+}
+
+@keyframes float-cta {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-4px); }
+}

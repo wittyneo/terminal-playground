@@ -1,0 +1,281 @@
+.hft {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  animation: fadeUp 0.4s ease-out, float-tilt-a 5.3s ease-in-out 0.4s infinite;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.hft__header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.hft__icon {
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hft__label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+.hft__project {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+/* ── Body ───────────────────────────────────────────────── */
+.hft__body {
+  padding: 8px 0 10px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  overflow-y: auto;
+  max-height: 420px;
+}
+
+/* ── Rows ───────────────────────────────────────────────── */
+.hft-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px 3px 8px;
+  min-height: 24px;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: default;
+  position: relative;
+  user-select: none;
+}
+
+.hft-row--folder {
+  cursor: pointer;
+}
+
+.hft-row--folder:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hft-row--root {
+  padding-left: 8px;
+}
+
+/* Current position — cyan accent (matches tutorial's active style) */
+.hft-row--current {
+  background: rgba(0, 207, 232, 0.09);
+  border-left-color: var(--cyan);
+}
+
+.hft-row--current .hft-label--folder {
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+.hft-row--current .hft-folder-icon {
+  color: var(--cyan-dim);
+}
+
+/* Target directory — amber glow to stand out from current */
+.hft-row--target-dir {
+  background: rgba(255, 189, 46, 0.07);
+  border-left-color: #ffbd2e;
+  animation: pulse-target-dir 2.5s ease-in-out infinite;
+}
+
+.hft-row--target-dir .hft-label--folder {
+  color: #ffbd2e;
+}
+
+.hft-row--target-dir .hft-folder-icon {
+  color: rgba(255, 189, 46, 0.6);
+}
+
+@keyframes pulse-target-dir {
+  0%, 100% { box-shadow: inset 0 0 0 0 rgba(255, 189, 46, 0); }
+  50%       { box-shadow: inset 0 0 12px 0 rgba(255, 189, 46, 0.08); }
+}
+
+/* Target file — glowing cyan */
+.hft-row--target-file {
+  background: rgba(0, 207, 232, 0.06);
+  border-left-color: var(--cyan);
+  animation: pulse-target-file 2s ease-in-out infinite;
+}
+
+@keyframes pulse-target-file {
+  0%, 100% { background: rgba(0, 207, 232, 0.06); }
+  50%       { background: rgba(0, 207, 232, 0.13); }
+}
+
+/* ── Labels ──────────────────────────────────────────────── */
+.hft-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hft-label--folder { color: var(--text-secondary); }
+.hft-label--file   { color: var(--text-secondary); font-size: 11px; }
+.hft-label--target { color: var(--cyan); font-weight: 600; }
+
+/* ── File glyph icons ────────────────────────────────────── */
+.hft-file-glyph {
+  font-size: 9px;
+  width: 12px;
+  text-align: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.icon--tsx  { color: #61dafb; }
+.icon--ts   { color: #4a9eff; }
+.icon--js   { color: #f0c040; }
+.icon--json { color: #98c379; }
+.icon--md   { color: #888;    }
+.icon--dot  { color: var(--text-muted); }
+
+/* ── Chevron ─────────────────────────────────────────────── */
+.hft-chevron {
+  font-size: 13px;
+  color: var(--text-muted);
+  width: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease;
+  transform: rotate(0deg);
+  line-height: 1;
+}
+
+.hft-chevron--open {
+  transform: rotate(90deg);
+}
+
+/* ── Folder icon ─────────────────────────────────────────── */
+.hft-folder-icon {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.hft-row--folder:hover .hft-folder-icon {
+  color: var(--text-secondary);
+}
+
+/* ── Badges ──────────────────────────────────────────────── */
+.hft-current-badge {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--bg-void);
+  background: var(--cyan);
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+.hft-target-badge {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--bg-void);
+  background: #ffbd2e;
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+}
+
+/* ── Connected tree lines (mirrors FileTree) ─────────────── */
+.hft-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.hft-list::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+}
+
+.hft-list--root {
+  padding-left: 16px;
+}
+
+.hft-list--root::before {
+  left: 4px;
+}
+
+.hft-item {
+  position: relative;
+  list-style: none;
+}
+
+.hft-item::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 12px;
+  width: 10px;
+  height: 1px;
+  background: var(--border);
+}
+
+.hft-list--root > .hft-item::before {
+  left: -8px;
+  width: 7px;
+}
+
+.hft-item--last::after {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 13px;
+  bottom: 0;
+  width: 1px;
+  background: var(--bg-card);
+  z-index: 1;
+}
+
+.hft-list--root > .hft-item--last::after {
+  left: -8px;
+}
+
+.hft-item > .hft-list {
+  padding-left: 18px;
+}
+
+.hft-item > .hft-list::before {
+  left: 6px;
+}
+
+.hft-item > .hft-list > .hft-item::before {
+  left: -12px;
+}
+
+.hft-item > .hft-list > .hft-item--last::after {
+  left: -12px;
+}

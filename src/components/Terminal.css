@@ -1,0 +1,305 @@
+.terminal {
+  background: var(--bg-terminal);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+  width: 100%;
+  min-height: 437px;
+  max-height: 571px;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal--error {
+  animation: shake 0.4s ease-in-out;
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 20px var(--danger-glow) !important;
+}
+
+.terminal--success {
+  border-color: var(--success);
+  box-shadow: 0 0 24px var(--success-glow);
+}
+
+.terminal--danger {
+  border-color: var(--danger);
+  box-shadow: 0 0 24px var(--danger-glow);
+}
+
+/* Title bar */
+.terminal__titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  flex-shrink: 0;
+}
+
+.terminal__dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.terminal__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal__dot--red    { background: var(--dot-red); }
+.terminal__dot--yellow { background: var(--dot-yellow); }
+.terminal__dot--green  { background: var(--dot-green); }
+
+/* Keyboard shortcuts in titlebar */
+.terminal__shortcuts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  animation: fadeUp 0.2s ease-out;
+}
+
+.terminal__shortcut {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-muted);
+}
+
+.terminal__shortcut kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 5px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-style: normal;
+}
+
+.terminal__shortcut-sep {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+/* Scrollable body */
+.terminal__body {
+  flex: 1;
+  padding: 20px 22px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-y: auto;
+  position: relative;
+  min-height: 0;
+}
+
+/* Prompt line */
+.terminal__line {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.terminal__user  { color: var(--cyan); font-weight: 600; }
+.terminal__sep   { color: var(--text-secondary); }
+.terminal__path  { color: var(--text-output); }
+
+.terminal__typed {
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: baseline;
+}
+
+/* Blinking cursor */
+.terminal__cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--cyan);
+  margin-left: 1px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+/* Hidden input */
+.terminal__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+/* Output lines */
+.terminal__output { margin-top: 8px; }
+
+.terminal__output-line {
+  color: var(--text-output);
+  animation: fadeUp 0.25s ease-out both;
+  white-space: pre;
+}
+
+/* Hint */
+.terminal__hint {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  animation: fadeUp 0.3s ease-out;
+}
+
+.terminal__hint-label {
+  background: rgba(255, 207, 0, 0.1);
+  color: #ffbd2e;
+  border: 1px solid rgba(255, 189, 46, 0.3);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.terminal__hint-code {
+  font-family: var(--font-mono);
+  color: var(--cyan);
+  background: var(--cyan-glow);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-active);
+}
+
+/* ── Sticky footer ──────────────────────────────────────── */
+.terminal__footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-top: 1px solid transparent;
+  animation: fadeUp 0.3s ease-out;
+}
+
+.terminal__footer--success {
+  background: rgba(0, 229, 160, 0.07);
+  border-top-color: rgba(0, 229, 160, 0.25);
+}
+
+.terminal__footer--danger {
+  background: rgba(255, 77, 77, 0.07);
+  border-top-color: rgba(255, 77, 77, 0.25);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.terminal__footer-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-output);
+  flex: 1;
+  min-width: 0;
+}
+
+.terminal__footer-icon {
+  color: var(--success);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.terminal__footer-icon--warn {
+  color: var(--danger);
+}
+
+.terminal__footer--danger .terminal__footer-msg strong {
+  color: var(--text-danger);
+}
+
+/* Next command button */
+.terminal__next-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 18px;
+  background: var(--success);
+  color: var(--bg-void);
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.terminal__next-btn:hover {
+  background: #00ffb3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 229, 160, 0.35);
+}
+
+.terminal__next-arrow {
+  font-size: 14px;
+}
+
+.terminal__complete-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--success);
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+/* Danger buttons */
+.terminal__danger-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.terminal__danger-btn {
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+}
+
+.terminal__danger-btn--confirm {
+  background: var(--danger);
+  color: #fff;
+}
+
+.terminal__danger-btn--confirm:hover { background: #ff6b6b; }
+
+.terminal__danger-btn--cancel {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+
+.terminal__danger-btn--cancel:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}

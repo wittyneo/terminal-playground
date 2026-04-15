@@ -1,0 +1,213 @@
+.hunt-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Top bar ──────────────────────────────────────────────── */
+.hunt-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px 4px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.hunt-topbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.hunt-topbar__logo {
+  color: var(--cyan);
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 8px var(--cyan-glow-strong));
+}
+
+.hunt-topbar__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hunt-topbar__hunt-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.hunt-topbar__reset-btn,
+.hunt-topbar__exit-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.hunt-topbar__reset-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.hunt-topbar__reset-btn:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-secondary);
+}
+
+.hunt-topbar__exit-btn {
+  background: transparent;
+  border: 1px solid var(--border-active);
+  color: var(--cyan);
+}
+
+.hunt-topbar__exit-btn:hover {
+  background: var(--cyan-glow);
+  border-color: var(--cyan-dim);
+}
+
+/* ── Three-column content ─────────────────────────────────── */
+.hunt-content {
+  display: grid;
+  grid-template-columns: 240px 552px 220px;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  animation: fadeUp 0.35s ease-out;
+}
+
+.hunt-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.hunt-col--center {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+.hunt-col--left,
+.hunt-col--right {
+  gap: 12px;
+}
+
+/* ── Terminal glow ────────────────────────────────────────── */
+.hunt-terminal-glow-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.hunt-terminal-glow {
+  position: absolute;
+  inset: -48px -56px;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(0, 207, 232, 0.45) 0%,
+    rgba(0, 207, 232, 0.22) 40%,
+    rgba(0, 207, 232, 0.06) 65%,
+    transparent 75%
+  );
+  filter: blur(32px);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hunt-terminal-glow-wrap .hunt-terminal {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Command reference card ───────────────────────────────── */
+.hunt-ref-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  animation: fadeUp 0.45s ease-out, float-tilt-c 5.8s ease-in-out 0.5s infinite;
+}
+
+.hunt-ref-card__header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.hunt-ref-card__icon {
+  font-size: 13px;
+  color: var(--cyan);
+}
+
+.hunt-ref-card__label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+
+.hunt-ref-card__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.hunt-ref-card__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hunt-ref-card__cmd {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--cyan);
+  background: var(--cyan-glow);
+  border: 1px solid var(--border-active);
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.hunt-ref-card__desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  padding-left: 2px;
+}
+
+.hunt-ref-card__tip {
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.hunt-ref-card__tip code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--cyan);
+}
