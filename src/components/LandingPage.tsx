@@ -355,11 +355,6 @@ const concerns: Concern[] = [
     thought: '"AI tools can just do this for me"',
     reframe:
       'Knowing the terminal means you understand what AI is doing, can catch when it goes wrong, and can jump in when it gets stuck.',
-    images: ['/AITool1.png', '/AITool2.png'],
-    imageCaptions: ['Exhibit A', 'Exhibit B'],
-    imageSize: 'stacked',
-    imageFirst: true,
-    textDelay: 10000,
   },
 ]
 
