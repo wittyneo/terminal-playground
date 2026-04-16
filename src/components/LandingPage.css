@@ -816,7 +816,7 @@
 }
 
 .tw__def {
-  font-size: 13.5px;
+  font-size: 15.5px;
   color: var(--text-output);
   line-height: 1.75;
 }
@@ -828,8 +828,7 @@
 .tw__analogy {
   margin-top: 14px;
   padding-top: 14px;
-  border-top: 1px solid var(--border);
-  font-size: 12.5px;
+  font-size: 14.5px;
   color: var(--text-secondary);
   line-height: 1.6;
   font-style: italic;
