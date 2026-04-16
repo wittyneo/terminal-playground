@@ -627,6 +627,7 @@ function TermWindow({ onClose }: { onClose: () => void }) {
   const [termIdx, setTermIdx] = useState(0)
   const draggingRef = useRef(false)
   const dragOffset  = useRef({ x: 0, y: 0 })
+  const winRef      = useRef<HTMLDivElement>(null)
 
   const entry   = glossary[termIdx]
   const isFirst = termIdx === 0
@@ -649,14 +650,21 @@ function TermWindow({ onClose }: { onClose: () => void }) {
     }
   }, [])
 
+  useEffect(() => { winRef.current?.focus({ preventScroll: true }) }, [])
+
   const startDrag = (e: React.MouseEvent) => {
     draggingRef.current = true
     dragOffset.current  = { x: e.clientX - pos.x, y: e.clientY - pos.y }
     e.preventDefault()
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowRight' && !isLast) setTermIdx(i => i + 1)
+    else if (e.key === 'ArrowLeft' && !isFirst) setTermIdx(i => i - 1)
+  }
+
   return (
-    <div className="tw" style={{ left: pos.x, top: pos.y }}>
+    <div className="tw" style={{ left: pos.x, top: pos.y }} ref={winRef} tabIndex={0} onKeyDown={handleKeyDown} onClick={() => winRef.current?.focus()}>
       {/* Titlebar */}
       <div className="tw__titlebar" onMouseDown={startDrag}>
         <div className="ct__dots">
@@ -679,7 +687,7 @@ function TermWindow({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* Single-term body */}
-      <div className={`tw__body${(entry.isCommand || entry.fullWidth) ? ' tw__body--full' : ''}`} key={termIdx}>
+      <div className={`tw__body${(entry.isCommand || entry.fullWidth) ? ' tw__body--full' : ''}`}>
         <div className="tw__left">
           <div className="tw__entry-head">
             {entry.isCommand && <span className="tw__dollar">$</span>}
