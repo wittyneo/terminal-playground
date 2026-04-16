@@ -40,12 +40,12 @@ function ConcernTerminal({ items }: { items: Concern[] }) {
         i++
         setDisplayedText(text.slice(0, i))
         if (i < text.length) {
-          timerRef.current = setTimeout(tick, 28)
+          timerRef.current = setTimeout(tick, 12)
         } else {
           setTypingDone(true)
         }
       }
-      timerRef.current = setTimeout(tick, 28)
+      timerRef.current = setTimeout(tick, 12)
     }
 
     if (concern.imageFirst) {
@@ -349,8 +349,6 @@ const concerns: Concern[] = [
     reframe: 'You realistically need 8–10 commands. The rest you look up as you go.',
     images: ['/memorize.gif'],
     imageSize: 'small',
-    imageFirst: true,
-    textDelay: 10000,
   },
   {
     thought: '"AI tools can just do this for me"',
