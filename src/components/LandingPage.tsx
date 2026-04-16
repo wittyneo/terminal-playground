@@ -617,12 +617,15 @@ const glossary: GlossaryEntry[] = [
 
 // ── Terms Encounter Window ────────────────────────────────────────
 
+type WinPhase = 'loading' | 'intro' | 'terms'
+
 function TermWindow({ onClose }: { onClose: () => void }) {
   const [pos, setPos] = useState(() => ({
     x: Math.max(20, (window.innerWidth - 680) / 2),
     y: 50,
   }))
-  const [termIdx, setTermIdx] = useState(0)
+  const [winPhase, setWinPhase] = useState<WinPhase>('loading')
+  const [termIdx, setTermIdx]   = useState(0)
   const draggingRef = useRef(false)
   const dragOffset  = useRef({ x: 0, y: 0 })
   const winRef      = useRef<HTMLDivElement>(null)
@@ -630,6 +633,13 @@ function TermWindow({ onClose }: { onClose: () => void }) {
   const entry   = glossary[termIdx]
   const isFirst = termIdx === 0
   const isLast  = termIdx === glossary.length - 1
+
+  // Auto-advance from loading → intro after 1.5s
+  useEffect(() => {
+    if (winPhase !== 'loading') return
+    const t = setTimeout(() => setWinPhase('intro'), 1500)
+    return () => clearTimeout(t)
+  }, [winPhase])
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -657,9 +667,16 @@ function TermWindow({ onClose }: { onClose: () => void }) {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowRight' && !isLast) setTermIdx(i => i + 1)
-    else if (e.key === 'ArrowLeft' && !isFirst) setTermIdx(i => i - 1)
+    if (e.key === 'ArrowRight') {
+      if (winPhase === 'intro') { setWinPhase('terms'); return }
+      if (winPhase === 'terms' && !isLast) setTermIdx(i => i + 1)
+    } else if (e.key === 'ArrowLeft') {
+      if (winPhase === 'terms' && isFirst) { setWinPhase('intro'); return }
+      if (winPhase === 'terms' && !isFirst) setTermIdx(i => i - 1)
+    }
   }
+
+  const showNav = winPhase === 'terms'
 
   return (
     <div className="tw" style={{ left: pos.x, top: pos.y }} ref={winRef} tabIndex={0} onKeyDown={handleKeyDown} onClick={() => winRef.current?.focus()}>
@@ -671,10 +688,10 @@ function TermWindow({ onClose }: { onClose: () => void }) {
           <span className="ct__dot ct__dot--green" />
         </div>
         <span className="tw__path">designer@void — ~/terms-encounter</span>
-        <div className="tw__nav">
+        <div className="tw__nav" style={{ visibility: showNav ? 'visible' : 'hidden' }}>
           <button
             className={`tw__nav-btn${isFirst ? ' tw__nav-btn--dim' : ''}`}
-            onClick={() => setTermIdx(i => i - 1)}
+            onClick={() => { if (isFirst) setWinPhase('intro'); else setTermIdx(i => i - 1) }}
           >‹</button>
           <span className="tw__nav-count">{termIdx + 1} / {glossary.length}</span>
           <button
@@ -684,25 +701,46 @@ function TermWindow({ onClose }: { onClose: () => void }) {
         </div>
       </div>
 
-      {/* Single-term body */}
-      <div className={`tw__body${(entry.isCommand || entry.fullWidth) ? ' tw__body--full' : ''}`}>
-        <div className="tw__left">
-          <div className="tw__entry-head">
-            {entry.isCommand && <span className="tw__dollar">$</span>}
-            <span className="tw__term">{entry.term}</span>
-          </div>
-          <div className="tw__def">{entry.def}</div>
+      {/* Loading */}
+      {winPhase === 'loading' && (
+        <div className="tw__splash">
+          <span className="tw__splash-text">
+            Loading program<span className="tw__splash-dots" />
+          </span>
         </div>
-        {!entry.isCommand && !entry.fullWidth && (
-          <div className="tw__right">
-            {entry.image
-              ? <img className="tw__img" src={entry.image} alt={entry.term} />
-              : <div className="tw__svg-wrap">{entry.svg}</div>
-            }
-            <div className="tw__analogy">{entry.analogy}</div>
+      )}
+
+      {/* Intro */}
+      {winPhase === 'intro' && (
+        <div className="tw__splash">
+          <p className="tw__intro-text">
+            Imagine you have a personal assistant.
+          </p>
+          <span className="tw__splash-hint">→ press arrow to continue</span>
+        </div>
+      )}
+
+      {/* Terms */}
+      {winPhase === 'terms' && (
+        <div className={`tw__body${(entry.isCommand || entry.fullWidth) ? ' tw__body--full' : ''}`}>
+          <div className="tw__left">
+            <div className="tw__entry-head">
+              {entry.isCommand && <span className="tw__dollar">$</span>}
+              <span className="tw__term">{entry.term}</span>
+            </div>
+            <div className="tw__def">{entry.def}</div>
           </div>
-        )}
-      </div>
+          {!entry.isCommand && !entry.fullWidth && (
+            <div className="tw__right">
+              {entry.image
+                ? <img className="tw__img" src={entry.image} alt={entry.term} />
+                : <div className="tw__svg-wrap">{entry.svg}</div>
+              }
+              <div className="tw__analogy">{entry.analogy}</div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
@@ -719,7 +757,7 @@ const shortcuts = [
 const navCommands = [
   { cmd: 'pwd', desc: 'Print working directory — where am I?' },
   { cmd: 'cd <folder-name>', desc: 'Move into a folder' },
-  { cmd: 'cd ..', desc: 'Go up one level' },
+  { cmd: 'cd ..', desc: 'Go up one folder level' },
   { cmd: 'cd ~', desc: 'Go to home folder from anywhere' },
   { cmd: 'ls', desc: 'List files in current folder' },
 ]
@@ -746,15 +784,16 @@ const EX_COMMANDS_ESSENTIAL = [
   { cmd: 'mkdir <folder-name>',   desc: 'create a folder' },
   { cmd: 'cd <folder-name>',      desc: 'move into a folder' },
   { cmd: 'touch <filename>',      desc: 'create a file' },
-  { cmd: 'open <filename>',       desc: 'open it in your editor' },
-  { cmd: '⌘S',                   desc: 'save the file' },
-  { cmd: 'ls',                    desc: 'check what\'s inside' },
-  { cmd: 'cd ..',                 desc: 'go back up one level' },
+  { cmd: 'ls',                    desc: 'check what\'s in the folder' },
+  { cmd: 'open <filename>',       desc: 'open the file in your editor' },
+  { cmd: '⌘S',                   desc: 'save the file in your editor' },
+  { cmd: 'cat <filename>',        desc: 'view the file contents in the terminal' },
+  { cmd: 'cd ..',                 desc: 'go back up one folder level' },
 ]
 
 const EX_COMMANDS_FASTER = [
-  { cmd: 'cd components/button', desc: 'jump straight to a deeper level' },
-  { cmd: 'cd ../..',             desc: 'go back up multiple levels at once' },
+  { cmd: 'cd components/button', desc: 'jump straight to a deeper folder level' },
+  { cmd: 'cd ../..',             desc: 'go back up multiple folder levels at once' },
   { cmd: 'cd ~',                 desc: 'go back up home' },
 ]
 
@@ -826,8 +865,8 @@ function ExerciseSection() {
           <div className="lp-exercise-cmds">
             <p className="lp-exercise-cmds-label">Commands you'll need</p>
             <div className="lp-exercise-cmds-group">
-              {EX_COMMANDS_ESSENTIAL.map(({ cmd, desc }) => (
-                <div key={cmd} className="lp-exercise-cmd-row">
+              {EX_COMMANDS_ESSENTIAL.map(({ cmd, desc }, i) => (
+                <div key={i} className="lp-exercise-cmd-row">
                   <span className="lp-exercise-cmd-desc">{desc}</span>
                   <div className="lp-cmd-row__actions">
                     <code className="lp-code">{cmd}</code>
@@ -881,8 +920,8 @@ function ExerciseSection() {
           <div className="lp-exercise-cmds">
             <p className="lp-exercise-cmds-label">Commands you'll need</p>
             <div className="lp-exercise-cmds-group">
-              {EX_COMMANDS_ESSENTIAL.map(({ cmd, desc }) => (
-                <div key={cmd} className="lp-exercise-cmd-row">
+              {EX_COMMANDS_ESSENTIAL.map(({ cmd, desc }, i) => (
+                <div key={i} className="lp-exercise-cmd-row">
                   <span className="lp-exercise-cmd-desc">{desc}</span>
                   <div className="lp-cmd-row__actions">
                     <code className="lp-code">{cmd}</code>
