@@ -103,7 +103,8 @@ function ConcernTerminal({ items }: { items: Concern[] }) {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') advance()
+    if (e.key === 'Enter' || e.key === 'ArrowRight') advance()
+    else if (e.key === 'ArrowLeft') back()
   }
 
   const advanceBtnLabel = 'enter'
